@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tazamall - Home</title>
+<link rel="stylesheet" href="tazamall.css">
+<script src="cart.js" defer></script>
+<script src="search.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="top-row">
+        <div class="logo">Tazamall</div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for products..." />
+        </div>
+        <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+    </div>
+
+    <div class="nav-logo">
+        <img src="logo.svg" alt="Tazamall logo" />
+    </div>
+</header>
+
+<div class="hero">
+    <p>Curated by Whicklian Nerio</p>
+</div>
+
+<div class="category-bar">
+    <button onclick="location.href='electronics.html'">Electronics</button>
+    <button onclick="location.href='fashion.html'">Fashion</button>
+    <button onclick="location.href='kitchen.html'">Home & Kitchen</button>
+    <button onclick="location.href='accessories.html'">Accessories</button>
+</div>
+
+<div class="container" id="product-list"></div>
+
+<footer>
+    <p>&copy; 2025 Tazamall — Curated by <strong>Whicklian Nerio</strong></p>
+</footer>
+
+<script src="products.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof displayProducts === 'function') displayProducts('all');
+    });
+</script>
+
+</body>
+</html>

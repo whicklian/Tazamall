@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <title>Checkout - Tazamall</title>
+    <link rel="stylesheet" href="tazamall.css"/>
+    <script src="payment.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo">Tazamall</div>
+        <a href="cart.html" class="back-home">⬅️ Back</a>
+    </header>
+    <div class="checkout-box">
+        <h2>Checkout</h2>
+        <form id="checkout-form">
+            <input type="text" id="fullname" placeholder="Full Names" required/>
+            <input type="text" id="phone" placeholder="Mpesa Phone Number" required/>
+            <input type="text" id="address" placeholder="Delivery Address" required/>
+            <button type="submit">Pay with Mpesa</button>
+        </form>
+    </div>
+    <!--Mpesa Pin Popup-->
+    <div class="mpesa-popup" id="mpesa-popup">
+        <div class="mpesa-box">
+            <h3>Enter M-pesa PIN</h3>
+            <input type="password" id="mpesa-pin" placeholder="PIN"/>
+            <button id="confirm-payment">Confirm Payment</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,276 @@
+/* ==================== General ==================== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #e6f2e6;
+    color: #004d00;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==================== Header ==================== */
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background: #66cc66;
+    color: white;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* top-row keeps header elements in a single horizontal row when present */
+.top-row {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    margin-top: 8px;
+}
+
+.nav-logo img {
+    height: 56px;
+    width: auto;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .nav-logo img { height: 40px; }
+    .search-bar input { width: 140px; }
+}
+
+.search-bar input {
+    padding: 5px;
+    width: 200px;
+    border-radius: 4px;
+    border: none;
+}
+
+.cart-icon {
+    color: white;
+    font-size: 20px;
+}
+
+/* ==================== Hero ==================== */
+.hero {
+    height: 200px;
+    background: url('img/logo.jpg')  no-repeat center/cover;
+    margin-bottom: 10px;
+    border-bottom: 4px solid #33cc33;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: burlywood;
+    font-size: 32px;    
+    font-weight: bold;
+    padding: 20px;
+
+}
+
+/* ==================== Categories ==================== */
+.category-bar {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.category-bar button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background: #33cc33;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.category-bar button:hover {
+    background: #28a428;
+}
+
+/* ==================== Container & Grid ==================== */
+.container {
+    padding: 20px;
+}
+
+.products-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* ==================== Product Cards ==================== */
+.product-card {
+    background: #ccffcc;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.product-title {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.product-price {
+    color: #006600;
+    margin-bottom: 10px;
+}
+
+.product-card button, .checkout-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background: #33cc33;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.product-card button:hover, .checkout-btn:hover {
+    background: #28a428;
+}
+
+/* ==================== Footer ==================== */
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #66cc66;
+    color: white;
+    margin-top: 20px;
+}
+
+/* ==================== Back Button ==================== */
+.back-home {
+    margin-left: 10px;
+    text-decoration: none;
+    color: white;
+    background: #33cc33;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.back-home:hover {
+    background: #28a428;
+}
+
+/* ==================== Auth Pages (Login/Signup) ==================== */
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #ccffcc;
+}
+
+.auth-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.auth-box input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.auth-box button {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background: #33cc33;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-box button:hover {
+    background: #28a428;
+}
+
+/* ==================== Cart & Checkout ==================== */
+.cart-container, .checkout-box {
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    background: #ccffcc;
+    border-radius: 8px;
+}
+
+.cart-total {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.mpesa-popup {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.mpesa-box {
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    text-align:center;
+}
+.mpesa-box input{
+    margin:10px 0;
+    padding:8px;
+    width:80%;
+    border-radius:4px;
+    border:1px solid #ccc;
+}
+.mpesa-box button{
+    padding:8px 12px;
+    border:none;
+    border-radius:4px;
+    background:#33cc33;
+    color:white;
+    cursor:pointer;
+}
+.mpesa-box button:hover{
+    background:#28a428;
+}

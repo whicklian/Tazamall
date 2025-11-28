@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessories - Tazamall</title>
+    <link rel="stylesheet" href="tazamall.css">
+    <script src="cart.js" defer></script>
+    <script src="products.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="logo">Tazamall</div>
+    <a href="index.html" class="back-home">⬅ Home</a>
+    <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+</header>
+
+<h2 class="section-title">⌚ Accessories</h2>
+
+<div class="products-grid"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof displayProducts === 'function') displayProducts('accessories');
+    });
+</script>
+
+</body>
+</html>
