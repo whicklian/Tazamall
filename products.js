@@ -2,8 +2,8 @@
 // Primary product data used across the site — cleaned and consistent
 const PRODUCTS = [
   // Fashion
-  { id: 1, name: 'Kenya Lion Sport Jersey', img: 'img/r4.jpg', price: 2400, category: 'Fashion', desc: 'Official print, breathable fabric.' },
-  { id: 2, name: 'Walk for Cure T-Shirt', img: 'img/t-shirt-design-in-kenya-opt-3.jpg', price: 1200, category: 'Fashion', desc: 'Event tee, unisex.' },
+  { id: 1, name: 'Kenya Lion Sport Jersey', img: 'r4.jpg', price: 2400, category: 'Fashion', desc: 'Official print, breathable fabric.' },
+  { id: 2, name: 'Walk for Cure T-Shirt', img: 't-shirt-design-in-kenya-opt-3.jpg', price: 1200, category: 'Fashion', desc: 'Event tee, unisex.' },
   { id: 3, name: 'Classic Jacket', img: 'img/jacket3.jpeg', price: 3500, category: 'Fashion', desc: 'Warm and stylish winter jacket.' },
   { id: 4, name: 'Premium Leather Jacket', img: 'img/jacket.jpeg', price: 5200, category: 'Fashion', desc: 'Genuine leather, perfect fit.' },
   { id: 5, name: 'Sports Shoes', img: 'img/shoes.jpeg', price: 2800, category: 'Fashion', desc: 'Comfortable athletic shoes.' },
@@ -41,3 +41,4 @@ const PRODUCTS = [
 ];
 
 const CATEGORIES = ["All", "Fashion", "Electronics", "Accessories", "Beauty", "Home & Kitchen"];
+
