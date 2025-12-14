@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Track Order — Tazamall</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="taz"><a href="index.html" style="text-decoration:none;color:inherit">Tazamall</a></div></header>
+
+<div class="container">
+  <h2>Track Order</h2>
+  <input id="orderInput" class="input" placeholder="Paste Order ID (e.g. TZA...)" style="max-width:420px">
+  <button onclick="loadOrder()" class="btn" style="margin-left:8px">Load</button>
+
+  <div id="info" style="margin-top:18px"></div>
+  <div style="margin-top:10px"><button onclick="advance()" class="btn ghost">Advance Status (demo)</button></div>
+</div>
+
+<script>
+function loadOrder(){
+  const id = document.getElementById("orderInput").value.trim() || new URLSearchParams(location.search).get("order");
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+  const o = orders.find(x=>x.id===id);
+  const info = document.getElementById("info");
+  if(!o){ info.innerHTML = "<p>Order not found</p>"; return; }
+  info.innerHTML = `<div style="background:var(--card);padding:12px;border-radius:10px">Order ${o.id}<br><strong>Status:</strong> ${o.status}</div>`;
+}
+function advance(){
+  const id = document.getElementById("orderInput").value.trim();
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+  const idx = orders.findIndex(x=>x.id===id);
+  if(idx===-1) return alert("Order not found");
+  const steps = ["Awaiting Payment","Paid","Processing","Packed","Shipped","Out for delivery","Delivered"];
+  const cur = orders[idx].status;
+  let i = steps.indexOf(cur);
+  if(i < 0) i = 1; // default to Paid
+  if(i < steps.length-1) orders[idx].status = steps[i+1];
+  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+  loadOrder();
+}
+</script>
+</body>
+</html>

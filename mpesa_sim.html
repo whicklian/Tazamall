@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>M-Pesa Simulator — Tazamall</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .container{max-width:820px;margin:28px auto;padding:18px}
+    .status{padding:12px;border-radius:10px;margin-top:12px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="taz"><a href="index.html" style="text-decoration:none;color:inherit">Tazamall</a></div>
+</header>
+
+<div class="container">
+  <h2>M-Pesa Payment Simulator</h2>
+  <p class="muted">Simulate an STK push for the order. No real money moves. On success cart is cleared and you will see a receipt.</p>
+
+  <div id="orderBox" style="background:var(--card);padding:12px;border-radius:10px;box-shadow:var(--shadow)">
+    <div id="orderInfo">Loading order...</div>
+  </div>
+
+  <div style="margin-top:12px">
+    <label>Paying phone</label>
+    <input id="payPhone" class="input" placeholder="07XXXXXXXX">
+  </div>
+
+  <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+    <button id="sendBtn" class="btn">Send STK Push</button>
+    <button id="forceFailBtn" class="btn ghost">Force Failure</button>
+    <button id="cancelBtn" class="btn" style="background:#f4f6f4;color:#123" onclick="cancelOrder()">Cancel Order</button>
+  </div>
+
+  <div id="status" class="status muted" style="display:none"></div>
+</div>
+
+<script src="products.js"></script>
+<script src="main.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const orderId = params.get("order");
+
+function loadOrder(){
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+  const o = orders.find(x=>x.id === orderId);
+  if(!o){
+    document.getElementById("orderInfo").innerHTML = "<strong>Order not found</strong>";
+    return null;
+  }
+  document.getElementById("orderInfo").innerHTML = `
+    <div><strong>Order:</strong> ${o.id}</div>
+    <div><strong>Name:</strong> ${o.name}</div>
+    <div><strong>Total:</strong> KES ${Number(o.total).toLocaleString()}</div>
+    <div style="margin-top:8px"><small class="muted">Status: ${o.status}</small></div>
+  `;
+  document.getElementById("payPhone").value = o.phone || "";
+  return o;
+}
+const o = loadOrder();
+
+document.getElementById("sendBtn").addEventListener("click", ()=>{
+  if(!o) return alert("Order not found");
+  const phone = (document.getElementById("payPhone").value||"").trim();
+  if(!/^0\d{9}$/.test(phone)) return alert("Phone format 07XXXXXXXX");
+
+  // simulate STK push delay
+  document.getElementById("status").style.display = "block";
+  document.getElementById("status").textContent = "Sending STK push...";
+  document.getElementById("sendBtn").disabled = true;
+
+  setTimeout(()=> {
+    // small random failure or success
+    const fail = document.getElementById("forceFailBtn").classList.contains("active") || Math.random() < 0.12;
+    const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+    const idx = orders.findIndex(x=>x.id===o.id);
+    if(idx === -1){ document.getElementById("status").textContent = "Order lost"; return; }
+
+    if(fail){
+      orders[idx].status = "Payment Failed";
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+      document.getElementById("status").textContent = "Payment failed. You can retry.";
+      document.getElementById("sendBtn").disabled = false;
+      loadOrder();
+    } else {
+      orders[idx].status = "Paid";
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+      // clear shopper cart
+      localStorage.removeItem(CART_KEY);
+      document.getElementById("status").textContent = "Payment success! Redirecting to receipt...";
+      setTimeout(()=> location.href = `receipt.html?order=${o.id}`, 900);
+    }
+  }, 1200);
+});
+
+// toggle force fail button
+document.getElementById("forceFailBtn").addEventListener("click", (e)=>{
+  e.target.classList.toggle("active");
+  e.target.style.background = e.target.classList.contains("active") ? "#fef0f0" : "";
+});
+
+// cancel order
+function cancelOrder(){
+  if(!o) return;
+  if(!confirm("Cancel order?")) return;
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+  const idx = orders.findIndex(x=>x.id===o.id);
+  if(idx !== -1){ orders[idx].status = "Cancelled"; localStorage.setItem(ORDERS_KEY, JSON.stringify(orders)); }
+  // clear cart
+  localStorage.removeItem(CART_KEY);
+  alert("Order cancelled");
+  location.href = "index.html";
+}
+
+/* 
+  // REAL STK PUSH (example, DO NOT include credentials client-side)
+  // On a production server you would:
+  // 1. Call your backend: POST /api/payments/stk with order id & phone
+  // 2. Backend calls M-Pesa API using secure credentials and returns a transaction ref
+  // 3. Backend polls or receives callback (IPN) and updates order status
+  // Important: NEVER put API keys in front-end code. Use a server.
+*/
+</script>
+</body>
+</html>

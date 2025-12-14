@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Tazamall</title>
+    <link rel="stylesheet" href="tazamall.css" />
+</head>
+<body class="auth-body">
+    <div class="auth-box">
+        <h2>Create Account</h2>
+        <form id="signupForm">
+            <input id="su_name" type="text" placeholder="Full Name" required />
+            <input id="su_email" type="email" placeholder="Email" required />
+            <input id="su_password" type="password" placeholder="Password" required />
+            <input id="su_password2" type="password" placeholder="Confirm Password" required />
+            <button type="submit">Sign Up</button>
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </form>
+    </div>
+    <script src="main.js"></script>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const next = params.get('next') || 'checkout.html';
+      document.getElementById('signupForm').addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        const name = document.getElementById('su_name').value.trim();
+        const email = document.getElementById('su_email').value.trim();
+        const pw = document.getElementById('su_password').value;
+        const pw2 = document.getElementById('su_password2').value;
+        if(!name || !email || !pw) return alert('Please fill all fields');
+        if(pw !== pw2) return alert('Passwords do not match');
+        const res = await registerUser({ name, email, password: pw });
+        if(!res.ok) return alert(res.message || 'Unable to register');
+        // redirect to next
+        location.href = next;
+      });
+    </script>
+</body>
+</html>

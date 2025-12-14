@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Tazamall</title>
+    <link rel="stylesheet" href="tazamall.css" />
+</head>
+<body class="auth-body">
+    <div class="auth-box">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input id="li_email" type="email" placeholder="Email" required />
+            <input id="li_password" type="password" placeholder="Password" required />
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        </form>
+    </div>
+    <script src="main.js"></script>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const next = params.get('next') || 'checkout.html';
+      document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        const email = document.getElementById('li_email').value.trim();
+        const pw = document.getElementById('li_password').value;
+        if(!email || !pw) return alert('Please fill both fields');
+        const res = await loginUser(email, pw);
+        if(!res.ok) return alert(res.message || 'Login failed');
+        location.href = next;
+      });
+    </script>
+</body>
+</html>

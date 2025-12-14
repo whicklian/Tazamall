@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Checkout — Tazamall</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="taz"><a href="index.html" style="text-decoration:none;color:inherit">Tazamall</a></div>
+</header>
+
+<div class="container">
+  <div class="checkout-box">
+    <h2>Checkout</h2>
+    <p class="muted">Review your order and enter delivery info.</p>
+
+    <div id="checkoutItems" style="margin-top:12px;"></div>
+
+    <div style="margin-top:12px">
+      <label>Full name</label>
+      <input id="c_name" class="input" placeholder="Whicklian Nerio">
+      <label>Phone</label>
+      <input id="c_phone" class="input" placeholder="07XXXXXXXX">
+      <label>Delivery address</label>
+      <input id="c_addr" class="input" placeholder="Street, Estate, City">
+    </div>
+
+    <div style="margin-top:16px;text-align:center">
+      <div style="font-weight:800">Total: <span id="checkoutTotal">KES 0</span></div>
+      <div style="margin-top:12px">
+        <button onclick="placeOrder()" class="btn">Place Order & Pay (M-Pesa)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="products.js"></script>
+<script src="main.js"></script>
+<script>
+// Require authentication before showing checkout
+const _current = getCurrentUser ? getCurrentUser() : JSON.parse(localStorage.getItem('tazaCurrentUser'));
+if(!_current){
+  alert('Please login or sign up to continue to checkout');
+  location.href = 'login.html?next=checkout.html';
+}
+else{
+  // prefill name if available
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const el = document.getElementById('c_name'); if(el && _current.name) el.value = _current.name;
+  });
+}
+function renderCheckout(){
+  const items = cartItemsDetailed();
+  const el = document.getElementById("checkoutItems");
+  el.innerHTML = "";
+  items.forEach(it => {
+    el.innerHTML += `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #eef">${it.name} × ${it.qty} <strong>KES ${it.subtotal.toLocaleString()}</strong></div>`;
+  });
+  document.getElementById("checkoutTotal").textContent = "KES " + cartTotal().toLocaleString();
+}
+function placeOrder(){
+  const name = document.getElementById("c_name").value.trim();
+  const phone = document.getElementById("c_phone").value.trim();
+  const addr = document.getElementById("c_addr").value.trim();
+  if(!name || !phone || !addr){ alert("Please fill all fields"); return; }
+  if(cart.length === 0){ alert("Cart is empty"); return; }
+
+  const orderId = "TZA" + Date.now();
+  const order = {
+    id: orderId,
+    name, phone, address: addr,
+    items: cartItemsDetailed(),
+    total: cartTotal(),
+    status: "Awaiting Payment",
+    createdAt: new Date().toISOString()
+  };
+  const existing = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+  existing.push(order);
+  localStorage.setItem(ORDERS_KEY, JSON.stringify(existing));
+
+  // redirect to mpesa simulator with order id
+  window.location.href = `mpesa_sim.html?order=${orderId}`;
+}
+
+renderCheckout();
+</script>
+</body>
+</html>
